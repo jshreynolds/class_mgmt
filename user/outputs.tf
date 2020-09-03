@@ -13,3 +13,7 @@ output "access_key_id" {
 output "workspace_id" {
     value = aws_workspaces_workspace.workspace.id
 }
+
+output "registration_code" {
+    value = data.aws_workspaces_directory.workspaces_dir.registration_code
+}

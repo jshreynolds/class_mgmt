@@ -11,8 +11,12 @@ data "aws_workspaces_bundle" "linux_value" {
   bundle_id = var.bundle_id
 }
 
-resource "aws_workspaces_workspace" "workspace" {
+data "aws_workspaces_directory" "workspaces_dir" {
   directory_id = var.directory_id
+}
+
+resource "aws_workspaces_workspace" "workspace" {
+  directory_id = data.aws_workspaces_directory.workspaces_dir.id
   bundle_id    = data.aws_workspaces_bundle.linux_value.id
   user_name    = aws_iam_user.user.name
 
@@ -23,7 +27,7 @@ resource "aws_workspaces_workspace" "workspace" {
     running_mode                              = "AUTO_STOP"
     running_mode_auto_stop_timeout_in_minutes = 60
   }
-  
+
   tags = {
     appleclass = "true"
   }
